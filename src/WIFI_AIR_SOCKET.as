@@ -55,15 +55,18 @@ package
  			//思路是这样的：
 			//如果你正在玩  而且连上别人的服务器  那么你的服务器就关闭  维护一个成员列表（你们所有参加的人的address 和 port)
 				//别人的服务器down了 那么你会重新连接其他人的服务器，而且有可能打开自己的服务器
-			//如果你在玩，不是连别人的服务器   你的服务器就是开着的	
+			
+			//如果你在玩，不是连别人的服务器   你的服务器就是开着的	 mainclient 就不必连接了
 			if(your_actor_state==YOU_ACT_AS_A_SERVER)
 			{
 				Server.getInstance().init(yourServerAddress,yourServerPort);
+				MainClient.getInstance().close();
 			}
 			else if(your_actor_state==YOU_CONNET_A_SERVER)
 			{
 			 
 				//如果服务器down了或者超时 那么重连
+				Server.getInstance().close();
 				doReconnet();				
 			}
 			
@@ -77,6 +80,10 @@ package
 		public function  doReconnet():void
 		{
 			//服务器down了
+			//服务器超时
+			//如果your actor state change
+			MainClient.getInstance().init();
+			MainClient.getInstance().reconnect("",0);
 		}
 	 
 

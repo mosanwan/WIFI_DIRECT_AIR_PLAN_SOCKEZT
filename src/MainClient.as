@@ -55,6 +55,8 @@ package
 		private function onError(e:Event):void
 		{
 			trace("meet a connet error");
+			//服务器关闭了
+			//服务器超时了
 		}
 		
 		private function onData(e:ProgressEvent):void

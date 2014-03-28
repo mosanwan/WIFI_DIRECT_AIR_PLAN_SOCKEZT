@@ -5,7 +5,9 @@ package
 		public var dataType:String;
 		public var data:Array;
 		
-		public static const INIT_SOCKET:String="initSocket"; //启动服务器  数据说明 [boolean 是否为服务器, String 服务器IP]
+		public static const start_a_server:String="sas";  //初始化服务器 [ address string ; port int]
+		public static const connet_to_server:String="cts";//连接到服务器 [address string ; port int]
+		public static const server_list:String = "sl";//下发server列表 [ [address string;port:int]....]		
 		
 		
 		

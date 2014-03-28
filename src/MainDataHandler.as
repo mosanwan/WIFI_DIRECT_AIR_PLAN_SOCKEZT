@@ -1,5 +1,7 @@
 package
 {
+	 
+
 	public class MainDataHandler
 	{
 		private static var _ins:MainDataHandler;
@@ -23,21 +25,28 @@ package
 			 * */
 			switch(_data.dataType)
 			{
-				case ThreadConnectData.INIT_SOCKET:
-					handInitSock(_data.data);
+				case ThreadConnectData.start_a_server:
+				 	WIFI_AIR_SOCKET.setYourActorState(WIFI_AIR_SOCKET.YOU_ACT_AS_A_SERVER,_data.data[0],_data.data[1]);
 					break;
+				case ThreadConnectData.server_list:
+					server_list(_data.data);
+					break ;
+				case ThreadConnectData.connet_to_server:
+					WIFI_AIR_SOCKET.setYourActorState(WIFI_AIR_SOCKET.YOU_CONNET_A_SERVER,_data.data[0],_data.data[1]);
+					break ;
 			}
+		}
+ 
+		
+		private function server_list(data:Array):void
+		{
+			WIFI_AIR_SOCKET.serverList=data;
 		}
 		
-		private function handInitSock(data:Array):void 
-		{
-			var isServer:Boolean=data[0]; //是否是服务器
-			var serverAdress:String=data[1]; //服务器IP
-			if(isServer){
-				//启动服务器Socket
-			}else{
-				//启动客户端Socket
-			}
-		}
+		
+ 
+ 
+
+ 
 	}
 }

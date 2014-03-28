@@ -10,9 +10,12 @@ package
 		private var mainToMe:MessageChannel;
 		private var meToMain:MessageChannel;
 		
-		private var serverList:Array;//用于重连
-		private var yourServerAddress:String;
-		private var yourServerPort:int;
+		static public var serverList:Array;//用于重连
+		static public var yourServerAddress:String;
+		static public var yourServerPort:int;
+		
+		static public var serverAddress:String;
+		static public var serverPort:int;
 		
 		static public const YOU_CONNET_A_SERVER:int=0;
 		static public const YOU_ACT_AS_A_SERVER:int=0;
@@ -33,8 +36,9 @@ package
 			{
 				meToMain.send("threadReay");
 				mainToMe.addEventListener(Event.CHANNEL_MESSAGE,onStatus);
-				mainToMe.addEventListener(Event.CHANNEL_MESSAGE,onMessage);
 			}
+			//初始化MainClient
+			MainClient.getInstance();
  
 		}
 		
@@ -44,50 +48,32 @@ package
 			
 		}
 		
-		protected function onMessage(event:Event):void
+	 		
+		static public function getYourActorState():int
 		{
-			trace("Socket消息:"+mainToMe.receive());
-		}
+			return your_actor_state;
+		}	
 		
-	 
-		protected function onRun():void
+		static public function setYourActorState(state:int,address:String,port:int):void
 		{
- 			//思路是这样的：
-			//如果你正在玩  而且连上别人的服务器  那么你的服务器就关闭  维护一个成员列表（你们所有参加的人的address 和 port)
-				//别人的服务器down了 那么你会重新连接其他人的服务器，而且有可能打开自己的服务器
-			
-			//如果你在玩，不是连别人的服务器   你的服务器就是开着的	 mainclient 就不必连接了
+			your_actor_state = state;
 			if(your_actor_state==YOU_ACT_AS_A_SERVER)
 			{
-				Server.getInstance().init(yourServerAddress,yourServerPort);
+				yourServerAddress = address;
+				yourServerPort = port;
+				//如果你在玩，不是连别人的服务器   你的服务器就是开着的	 mainclient 就不必连接了
+				Server.getInstance().init(address,port);	
 				MainClient.getInstance().close();
 			}
 			else if(your_actor_state==YOU_CONNET_A_SERVER)
 			{
-			 
-				//如果服务器down了或者超时 那么重连
+				//如果你正在玩  而且连上别人的服务器  那么你的服务器就关闭  
+				serverAddress = address;
+				serverPort = port;
+				MainClient.getInstance().init(address,port);
 				Server.getInstance().close();
-				doReconnet();				
 			}
-			
 		}
-		
-		static public function getYourActorState():int
-		{
-			return your_actor_state;
-		}
-		
-		public function  doReconnet():void
-		{
-			//服务器down了
-			//服务器超时
-			//如果your actor state change
-			MainClient.getInstance().init();
-			MainClient.getInstance().reconnect("",0);
-		}
-	 
-
-		
  
 	}
 

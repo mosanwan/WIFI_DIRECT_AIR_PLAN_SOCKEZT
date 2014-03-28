@@ -37,7 +37,7 @@ package
 			}
 		}
  
-		
+		//设置服务器列表
 		private function server_list(data:Array):void
 		{
 			WIFI_AIR_SOCKET.serverList=data;

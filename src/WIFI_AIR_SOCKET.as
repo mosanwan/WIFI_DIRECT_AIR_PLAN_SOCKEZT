@@ -10,21 +10,28 @@ package
 		private var mainToMe:MessageChannel;
 		private var meToMain:MessageChannel;
 		
+		//这个游戏网络中所有ip和端口
 		static public var serverList:Array;//用于重连
+		//你构建的服务器的地址和端口
 		static public var yourServerAddress:String;
 		static public var yourServerPort:int;
 		
+		//你连接的服务器的地址和端口
 		static public var serverAddress:String;
 		static public var serverPort:int;
 		
+		//作为一个连接服务器的状态
 		static public const YOU_CONNET_A_SERVER:int=0;
+		//作为一个服务器的状态
 		static public const YOU_ACT_AS_A_SERVER:int=0;
-		//为上面两种值 这个值由你主现成决定
+		//当前服务器和客户端属性
+		//为上面两种值 这个值由你主线程决定
 		static public var your_actor_state:int;
 		
 		//超时设置
 		static public var timeOut:int;
-		static public var client_id:int;
+		//设置唯一的client_id
+		static public var client_id:int=0;
  
 		
 	
@@ -33,13 +40,14 @@ package
 			
 			mainToMe=Worker.current.getSharedProperty("mainToWorker");
 			meToMain=Worker.current.getSharedProperty("workerToMain");
+			//初始化MainClient
+			MainClient.getInstance();
 			if(mainToMe&&meToMain)
 			{
 				meToMain.send("threadReay");
 				mainToMe.addEventListener(Event.CHANNEL_MESSAGE,onStatus);
 			}
-			//初始化MainClient
-			MainClient.getInstance();
+
  
 		}
 		
@@ -51,12 +59,24 @@ package
 			
 		}
 		
-	 		
+		/**
+		 *获得当前服务器和客户端属性 
+		 * @return 
+		 * 
+		 */
+	 	
 		static public function getYourActorState():int
 		{
 			return your_actor_state;
 		}	
 		
+		/**
+		 *设置当前服务器客户端的状态 
+		 * @param state
+		 * @param address
+		 * @param port
+		 * 
+		 */
 		static public function setYourActorState(state:int,address:String,port:int):void
 		{
 			your_actor_state = state;
@@ -78,6 +98,11 @@ package
 			}
 		}
 		
+		/**
+		 *随机不重复产生客户端id 
+		 * @return 
+		 * 
+		 */
 		static public function getClientId():int
 		{
 			client_id++;

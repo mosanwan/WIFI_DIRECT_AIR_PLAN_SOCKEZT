@@ -32,6 +32,12 @@ package
 			socket.addEventListener(SecurityErrorEvent.SECURITY_ERROR,onError);
 		}
 		
+		/**
+		 *其实就是重新连接 
+		 * @param address
+		 * @param port
+		 * 
+		 */
 		public function init(address:String,port:int):void
 		{
 			if(socket.connected)
@@ -45,12 +51,22 @@ package
 			socket.close();
 		}
 		
+		/**
+		 *当连接建立的时候 
+		 * @param e
+		 * 
+		 */
 		private function onConnet(e:Event):void
 		{
 			trace(e.type);
 			trace("game again");
 		}
 		
+		/**
+		 *用于当服务器down了后重新连接 或者你自己一个人了
+		 * @param e
+		 * 
+		 */
 		private function onError(e:Event):void
 		{
 			trace("meet a connet error");
@@ -69,9 +85,18 @@ package
 					WIFI_AIR_SOCKET.setYourActorState(WIFI_AIR_SOCKET.YOU_CONNET_A_SERVER,data[0],data[1]);
 				}
 			}
+			else
+			{
+				MeToMainCC.sendServerDownAndNoServer();
+			}
  
 		}
 		
+		/**
+		 *服务器发送的消息 
+		 * @param e
+		 * 
+		 */
 		private function onData(e:ProgressEvent):void
 		{
 	 		//传给main thread

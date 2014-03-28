@@ -12,7 +12,9 @@ package
 	 */
 	public class Client
 	{
+		//客户端的socket
   		public var socket:Socket;
+		//每个连接来的客户端都通过id来通信
 		public var client_id:int;
 		
 		
@@ -34,6 +36,11 @@ package
 			trace("a client connet us");
 		}
 		
+		/**
+		 *当客户端出现问题的时候，我们就删除掉这个客户端 
+		 * @param e
+		 * 
+		 */
 		private function onError(e:Event):void
 		{
 			trace("meet a connet error");

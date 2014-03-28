@@ -24,6 +24,7 @@ package
 		
 		//超时设置
 		static public var timeOut:int;
+		static public var client_id:int;
  
 		
 	
@@ -41,6 +42,8 @@ package
 			MainClient.getInstance();
  
 		}
+		
+		
 		
 		protected function onStatus(event:Event):void
 		{
@@ -73,6 +76,12 @@ package
 				MainClient.getInstance().init(address,port);
 				Server.getInstance().close();
 			}
+		}
+		
+		static public function getClientId():int
+		{
+			client_id++;
+			return client_id;
 		}
  
 	}

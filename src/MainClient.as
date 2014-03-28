@@ -74,7 +74,8 @@ package
 		
 		private function onData(e:ProgressEvent):void
 		{
-	 			//传给main thread
+	 		//传给main thread
+			MeToMainCC.sendServerMsg(e.target);
 		}
 	}
 }

@@ -23,6 +23,7 @@ package
 		public function init(adess:String,port:int):void
 		{
 			_serverSocket=new ServerSocket();
+			ClientManager.getInstance().clear();
 			_serverSocket.bind(port,adess);
 			_serverSocket.listen();
 			_serverSocket.addEventListener(ServerSocketConnectEvent.CONNECT,onClientConnect);	
@@ -31,11 +32,12 @@ package
 		protected function onClientConnect(event:ServerSocketConnectEvent):void
 		{
 			var socket:Socket=event.socket;
-			
+			ClientManager.getInstance().addClient(new Client(socket));			
 		}
 		
 		public function close():void
 		{
+			_serverSocket.removeEventListener(ServerSocketConnectEvent.CONNECT,onClientConnect);	
 			_serverSocket.close();
 		}
 	}

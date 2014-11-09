@@ -1,5 +1,6 @@
 package
 {
+	//asdfadsfadsfasd
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.system.MessageChannel;

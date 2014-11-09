@@ -99,7 +99,7 @@ package
 		 */
 		private function onData(e:ProgressEvent):void
 		{
-	 		//传给main thread
+	 		//传给main thread asdfadsfads
 			MeToMainCC.sendServerMsg(e.target);
 		}
 	}
